@@ -48,6 +48,37 @@ static void schedule1()
 // push the current thread to the end of the ready list
 void create_thread(func_t func, void *param)
 {
+	unsigned *stack = malloc(4096);
+	stack += 1024;
+	struct thread *t = malloc(sizeof(struct thread));
+
+	stack=(stack-(sizeof(unsigned)/4));
+	*stack=(unsigned)param; // parameter
+
+	stack=(stack-(sizeof(unsigned)/4));
+	*stack=0;
+
+	stack=(stack-(sizeof(unsigned)/4));
+	*stack=(unsigned)func;
+
+	stack=(stack-(sizeof(unsigned)/4));
+	*stack=0;
+
+	stack=(stack-(sizeof(unsigned)/4));
+	*stack=0;
+
+	stack=(stack-(sizeof(unsigned)/4));
+	*stack=0;
+
+	stack=(stack-(sizeof(unsigned)/4));
+	*stack=0;
+	
+
+	t->esp=stack;// set esp in struct thread (t)
+
+	push_back(t);
+	//schedule1();
+	
 }
 
 // call schedule1
